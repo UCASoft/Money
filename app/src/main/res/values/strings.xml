@@ -8,5 +8,7 @@
     <string name="nav_accounts_title">Accounts</string>
     <string name="nav_transactions_title">Transactions</string>
     <string name="nav_settings_title">Settings</string>
+    <string name="nav_locations_title">Locations</string>
+    <string name="nav_recipients_title">Recipients</string>
 
 </resources>

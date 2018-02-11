@@ -17,6 +17,14 @@
             android:id="@+id/nav_transactions"
             android:icon="@drawable/ic_transaction_black_24dp"
             android:title="@string/nav_transactions_title" />
+        <item
+            android:id="@+id/nav_locations"
+            android:icon="@drawable/ic_location_black_24dp"
+            android:title="@string/nav_locations_title"/>
+        <item
+            android:id="@+id/nav_recipients"
+            android:icon="@drawable/ic_recipient_black_24dp"
+            android:title="@string/nav_recipients_title"/>
     </group>
 
     <group android:checkableBehavior="none" android:id="@+id/nav_group_additional">

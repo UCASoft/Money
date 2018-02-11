@@ -44,6 +44,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_transactions -> {
 
             }
+            R.id.nav_locations -> {
+
+            }
+            R.id.nav_recipients -> {
+
+            }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
