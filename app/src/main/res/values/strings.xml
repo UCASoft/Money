@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Money</string>
+    <string name="title_activity_main">Money</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_main_title">Main</string>
+    <string name="nav_accounts_title">Accounts</string>
+    <string name="nav_transactions_title">Transactions</string>
+    <string name="nav_settings_title">Settings</string>
+
 </resources>
