@@ -2,11 +2,13 @@ package com.ucasoft.money.activities
 
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.ucasoft.money.R
+import com.ucasoft.money.fragments.LocationsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        var fragment : Fragment? = null
         when (item.itemId) {
             R.id.nav_main -> {
 
@@ -45,13 +48,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
             R.id.nav_locations -> {
-
+                fragment = LocationsFragment()
             }
             R.id.nav_recipients -> {
 
             }
         }
 
+        val manager = supportFragmentManager
+        if (fragment != null) {//// TODO Only before all actions will be finished!
+            manager.beginTransaction().replace(R.id.content, fragment).commit()
+        }
+
+        title = item.title
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
