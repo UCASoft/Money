@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.ucasoft.money.R
+import com.ucasoft.money.fragments.AccountFragment
 import com.ucasoft.money.fragments.LocationsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -42,13 +43,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
             R.id.nav_accounts -> {
-
+                fragment = AccountFragment.newInstance()
             }
             R.id.nav_transactions -> {
 
             }
             R.id.nav_locations -> {
-                fragment = LocationsFragment()
+                fragment = LocationsFragment.newInstance()
             }
             R.id.nav_recipients -> {
 
