@@ -2,9 +2,10 @@ package com.ucasoft.money.dummy
 
 import android.content.Context
 import com.ucasoft.money.R
+import com.ucasoft.money.model.Bank
+import com.ucasoft.money.model.Card
 import com.ucasoft.money.model.MoneyAccount
 import com.ucasoft.money.model.MoneyBankAccount
-import com.ucasoft.money.model.MoneyCard
 import org.json.JSONObject
 import java.io.InputStream
 import java.util.*
@@ -17,46 +18,52 @@ import kotlin.collections.ArrayList
  *
  * TODO: Replace all uses of this class before publishing your app.
  */
- class DummyContent constructor(context: Context){
+ class DummyContent constructor(private var context: Context){
 
-    /**
-     * An array of sample (dummy) items.
-     */
     lateinit var MoneyAccounts: MutableList<MoneyAccount>
 
-
     init {
-        val jsonDummies = loadDummyJson(context)
-        loadAccounts(context, jsonDummies)
+        val jsonDummies = loadDummyJson()
+        loadAccounts(jsonDummies)
     }
 
-    private fun loadAccounts(context: Context, dummies: JSONObject) {
+    private fun loadAccounts(dummies: JSONObject) {
         MoneyAccounts = ArrayList()
         val accounts = dummies.getJSONArray("accounts")
-        for (i in 0 until accounts.length()){
-            val jsonAccount = accounts.getJSONObject(i)
-            val accountLogo = identifierByName(context, jsonAccount.getString("logo"))
-            val name = jsonAccount.getString("name")
-            if (jsonAccount.has("cards")){
-                val jsonCards = jsonAccount.getJSONArray("cards")
-                val cards = ArrayList<MoneyCard>(jsonCards.length())
-                for (j in 0 until jsonCards.length()){
-                    val jsonCard = jsonCards.getJSONObject(j)
-                    val cardLogo = identifierByName(context, jsonCard.getString("logo"))
-                    val cardNumber = jsonCard.getString("number")
-                    cards.add(MoneyCard.newInstance(cardLogo, cardNumber))
-                }
-                MoneyAccounts.add(MoneyBankAccount.newInstance(accountLogo, name, cards))
-            } else {
-                MoneyAccounts.add(MoneyAccount.newInstance(accountLogo, name))
-            }
-        }
+        (0 until accounts.length()).mapTo(MoneyAccounts){buildAccount(accounts.getJSONObject(it))}
     }
 
-    private fun identifierByName(context: Context, identifierName: String) =
+    private fun buildAccount(account: JSONObject) : MoneyAccount{
+        val accountLogo = identifierByName(account.getString("logo"))
+        val name = account.getString("name")
+        if (account.has("bank")){
+            val bank = buildBank(account.getJSONObject("bank"))
+            var cards : ArrayList<Card>? = null
+            if (account.has("cards")) {
+                val jsonCards = account.getJSONArray("cards")
+                cards = ArrayList<Card>(jsonCards.length())
+                (0 until jsonCards.length()).mapTo(cards) { buildCard(jsonCards.getJSONObject(it)) }
+            }
+            return MoneyBankAccount.newInstance(accountLogo, name, bank, cards)
+        }
+        return MoneyAccount.newInstance(accountLogo, name)
+    }
+
+    private fun buildBank(jsonBank: JSONObject): Bank {
+        val name = jsonBank.getString("name")
+        return Bank.newInstance(name)
+    }
+
+    private fun buildCard(jsonCard: JSONObject): Card{
+        val cardLogo = identifierByName(jsonCard.getString("logo"))
+        val cardNumber = jsonCard.getString("number")
+        return Card.newInstance(cardLogo, cardNumber)
+    }
+
+    private fun identifierByName(identifierName: String) =
             context.resources.getIdentifier(identifierName, "drawable", context.packageName)
 
-    private fun loadDummyJson(context: Context) : JSONObject {
+    private fun loadDummyJson() : JSONObject {
         val jsonStream = context.resources.openRawResource(R.raw.secrets)
         val jsonObject = JSONObject(convertStreamToString(jsonStream))
         return jsonObject.getJSONObject("dummies")

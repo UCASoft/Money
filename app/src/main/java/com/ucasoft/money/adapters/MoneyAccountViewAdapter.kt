@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ListView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.ucasoft.money.R
 
@@ -20,9 +20,12 @@ import com.ucasoft.money.model.MoneyBankAccount
 
     private var context : Context? = null
 
+    private lateinit var inflater : LayoutInflater
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.account, parent, false)
+        inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.account, parent, false)
         return ViewHolder(view)
     }
 
@@ -32,7 +35,13 @@ import com.ucasoft.money.model.MoneyBankAccount
         holder.logoView.setImageResource(account.logoResource)
         holder.accountNameView.text = account.name
         if (account is MoneyBankAccount) {
-            holder.cardListView.adapter = MoneyCardViewAdapter(context, R.layout.card, account.cards)
+            holder.bankNameView.text = account.bank.name
+            if (account.cards != null) {
+                val cardAdapter = MoneyCardViewAdapter(context, R.layout.card, account.cards!!)
+                for (i in 0 until cardAdapter.count) {
+                    holder.cardsView.addView(cardAdapter.getView(i, null, null))
+                }
+            }
         }
     }
 
@@ -40,10 +49,11 @@ import com.ucasoft.money.model.MoneyBankAccount
         return accounts.size
     }
 
-    inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
-        val logoView: ImageView = mView.findViewById(R.id.account_logo) as ImageView
-        val accountNameView: TextView = mView.findViewById(R.id.content) as TextView
-        val cardListView : ListView = mView.findViewById(R.id.account_cards) as ListView
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val logoView: ImageView = view.findViewById(R.id.account_logo) as ImageView
+        val bankNameView: TextView = view.findViewById(R.id.bank_name) as TextView
+        val accountNameView: TextView = view.findViewById(R.id.account_name) as TextView
+        val cardsView: LinearLayout = view.findViewById(R.id.account_cards) as LinearLayout
         var item: MoneyAccount? = null
 
         override fun toString(): String {

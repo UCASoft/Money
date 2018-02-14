@@ -4,11 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import com.ucasoft.money.R
-import com.ucasoft.money.model.MoneyCard
+import com.ucasoft.money.model.Card
 
-class MoneyCardViewAdapter(context: Context?, var resource: Int, var cards: List<MoneyCard>): ArrayAdapter<MoneyCard>(context, resource, cards) {
+class MoneyCardViewAdapter(context: Context?, var resource: Int, var cards: List<Card>): ArrayAdapter<Card>(context, resource, cards) {
 
     private var inflater : LayoutInflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -26,7 +28,7 @@ class MoneyCardViewAdapter(context: Context?, var resource: Int, var cards: List
     inner class ViewHolder(view: View) {
         val logoView: ImageView = view.findViewById(R.id.card_logo) as ImageView
         val cardNumberView: TextView = view.findViewById(R.id.card_number) as TextView
-        var item: MoneyCard? = null
+        var item: Card? = null
 
     }
 }
