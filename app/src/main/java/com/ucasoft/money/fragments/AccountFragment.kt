@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.ucasoft.money.R
 import com.ucasoft.money.adapters.MoneyAccountViewAdapter
 import com.ucasoft.money.dummy.DummyContent
+import com.ucasoft.money.fragments.dialogs.AccountDialog
 
 /**
  * A fragment representing a list of Items.
@@ -24,6 +25,17 @@ class AccountFragment: Fragment() {
             val dummyContent = DummyContent(this.context)
             recyclerView.adapter = MoneyAccountViewAdapter(dummyContent.MoneyAccounts)
         }
+
+        val floatButton = view.findViewById(R.id.account_add)
+        floatButton.setOnClickListener({
+            run {
+                val dialog = AccountDialog()
+                val bundle = Bundle()
+                bundle.putString("title", this.getString(R.string.add_account_title))
+                dialog.arguments = bundle
+                dialog.show(fragmentManager, AccountDialog.DialogName)
+            }
+        })
         return view
     }
 
