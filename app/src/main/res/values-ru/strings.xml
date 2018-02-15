@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_main_title">Главная</string>
+    <string name="nav_accounts_title">Аккаунты</string>
+    <string name="nav_transactions_title">Транзакции</string>
+    <string name="nav_settings_title">Настройки</string>
+    <string name="nav_locations_title">Места</string>
+    <string name="nav_recipients_title">Получатели</string>
+
+    <string name="add_account_title">Добавить аккаунт</string>
+</resources>
