@@ -2,10 +2,8 @@ package com.ucasoft.money.dummy
 
 import android.content.Context
 import com.ucasoft.money.R
-import com.ucasoft.money.model.Bank
-import com.ucasoft.money.model.Card
-import com.ucasoft.money.model.MoneyAccount
-import com.ucasoft.money.model.MoneyBankAccount
+import com.ucasoft.money.model.*
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.InputStream
 import java.util.*
@@ -36,6 +34,7 @@ import kotlin.collections.ArrayList
     private fun buildAccount(account: JSONObject) : MoneyAccount{
         val accountLogo = identifierByName(account.getString("logo"))
         val name = account.getString("name")
+        val currencies = buildCurrencies(account.getJSONArray("currencies"))
         if (account.has("bank")){
             val bank = buildBank(account.getJSONObject("bank"))
             var cards : ArrayList<Card>? = null
@@ -44,9 +43,21 @@ import kotlin.collections.ArrayList
                 cards = ArrayList<Card>(jsonCards.length())
                 (0 until jsonCards.length()).mapTo(cards) { buildCard(jsonCards.getJSONObject(it)) }
             }
-            return MoneyBankAccount.newInstance(accountLogo, name, bank, cards)
+            return MoneyBankAccount.newInstance(accountLogo, name, currencies, bank, cards)
         }
-        return MoneyAccount.newInstance(accountLogo, name)
+        return MoneyAccount.newInstance(accountLogo, name, currencies)
+    }
+
+    private fun buildCurrencies(currencies: JSONArray): ArrayList<MoneyCurrency> {
+        val result = ArrayList<MoneyCurrency>()
+        (0 until currencies.length()).mapTo(result){buildCurrency(currencies.getJSONObject(it))}
+        return result
+    }
+
+    private fun buildCurrency(currency: JSONObject): MoneyCurrency {
+        val amount = currency.getDouble("amount")
+        val currencyCode = currency.getString("currency")
+        return MoneyCurrency(amount, currencyCode)
     }
 
     private fun buildBank(jsonBank: JSONObject): Bank {
