@@ -23,6 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="5dp"
+        android:backgroundTint="?attr/colorPrimary"
+        app:borderWidth="0dp"
         app:fabSize="normal"
         android:src="@android:drawable/ic_menu_add"
         />
