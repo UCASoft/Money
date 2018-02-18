@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.ucasoft.money.R
 import com.ucasoft.money.adapters.MoneyAccountViewAdapter
 import com.ucasoft.money.dummy.DummyContent
@@ -18,22 +17,37 @@ import com.ucasoft.money.listeners.AdapterChangeModeListener
  * A fragment representing a list of Items.
  */
 class AccountFragment: Fragment(), AdapterChangeModeListener {
-    override fun editMode() {
-        floatButton.animate().alpha(0.0f).duration = 150
-    }
-
-    override fun normalMode() {
-        floatButton.animate().alpha(1.0f).duration = 150
-    }
 
     lateinit var floatButton: FloatingActionButton
 
+    private var editModeCount: Int = 0
+
+    override fun editMode() {
+        editModeCount++
+        if (editModeCount == 2) {
+            floatButton.animate().alpha(0.0f).duration = 150
+        }
+    }
+
+    override fun normalMode() {
+        if (editModeCount == 1) {
+            floatButton.animate().alpha(1.0f).duration = 150
+        }
+        editModeCount--
+    }
+
     override fun editModeStart() {
-        floatButton.animate().alpha(0.5f).duration = 150
+        editModeCount++
+        if (editModeCount == 1){
+            floatButton.animate().alpha(0.5f).duration = 150
+        }
     }
 
     override fun normalModeStart() {
-        floatButton.animate().alpha(0.5f).duration = 150
+        if (editModeCount == 2) {
+            floatButton.animate().alpha(0.5f).duration = 150
+        }
+        editModeCount--
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
