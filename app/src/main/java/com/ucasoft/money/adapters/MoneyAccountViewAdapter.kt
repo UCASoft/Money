@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.daimajia.swipe.SwipeLayout
+import com.daimajia.swipe.adapters.RecyclerSwipeAdapter
 import com.ucasoft.money.R
 
 import com.ucasoft.money.model.MoneyAccount
@@ -16,9 +18,13 @@ import com.ucasoft.money.model.MoneyBankAccount
 /**
  * [RecyclerView.Adapter] that can display a [MoneyAccount]
  */
- class MoneyAccountViewAdapter(private val accounts:List<MoneyAccount>):RecyclerView.Adapter<MoneyAccountViewAdapter.ViewHolder>() {
+ class MoneyAccountViewAdapter(private val accounts:List<MoneyAccount>):RecyclerSwipeAdapter<MoneyAccountViewAdapter.ViewHolder>() {
 
-    private var context : Context? = null
+    override fun getSwipeLayoutResourceId(position: Int): Int {
+        return R.id.account_swipe
+    }
+
+    private lateinit var context : Context
 
     private lateinit var inflater : LayoutInflater
 
@@ -30,6 +36,9 @@ import com.ucasoft.money.model.MoneyBankAccount
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.swipeLayout.showMode = SwipeLayout.ShowMode.PullOut
+        holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Left, holder.swipeLayout.findViewById(R.id.account_swipe_delete))
+        holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, holder.swipeLayout.findViewById(R.id.account_swipe_edit))
         val account = accounts[position]
         holder.item = account
         holder.logoView.setImageResource(account.logoResource)
@@ -54,6 +63,7 @@ import com.ucasoft.money.model.MoneyBankAccount
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val swipeLayout: SwipeLayout = view.findViewById(R.id.account_swipe) as SwipeLayout
         val logoView: ImageView = view.findViewById(R.id.account_logo) as ImageView
         val bankNameView: TextView = view.findViewById(R.id.bank_name) as TextView
         val accountNameView: TextView = view.findViewById(R.id.account_name) as TextView
