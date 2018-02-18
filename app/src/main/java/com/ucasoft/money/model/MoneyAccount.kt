@@ -1,6 +1,8 @@
 package com.ucasoft.money.model
 
-open class MoneyAccount {
+import java.io.Serializable
+
+open class MoneyAccount : Serializable {
 
     lateinit var name: String
 
@@ -14,7 +16,7 @@ open class MoneyAccount {
             val account = MoneyAccount()
             account.logoResource = logoResource
             account.name = name
-            account.currencies = currencies;
+            account.currencies = currencies
             return account
         }
     }

@@ -31,7 +31,7 @@ class AccountFragment: Fragment() {
             run {
                 val dialog = AccountDialog()
                 val bundle = Bundle()
-                bundle.putString("title", this.getString(R.string.add_account_title))
+                bundle.putString(AccountDialog.DialogTitleKey, this.getString(R.string.add_account_title))
                 dialog.arguments = bundle
                 dialog.show(fragmentManager, AccountDialog.DialogName)
             }

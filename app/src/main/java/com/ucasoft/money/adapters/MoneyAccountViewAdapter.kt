@@ -1,6 +1,8 @@
 package com.ucasoft.money.adapters
 
 import android.content.Context
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import android.widget.TextView
 import com.daimajia.swipe.SwipeLayout
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter
 import com.ucasoft.money.R
+import com.ucasoft.money.fragments.dialogs.AccountDialog
 
 import com.ucasoft.money.model.MoneyAccount
 import com.ucasoft.money.model.MoneyBankAccount
@@ -39,6 +42,15 @@ import com.ucasoft.money.model.MoneyBankAccount
         holder.swipeLayout.showMode = SwipeLayout.ShowMode.PullOut
         holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Left, holder.swipeLayout.findViewById(R.id.account_swipe_delete))
         holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, holder.swipeLayout.findViewById(R.id.account_swipe_edit))
+
+        holder.editButton.setOnClickListener({ view ->
+            val dialog = AccountDialog()
+            val bundle = Bundle()
+            bundle.putString(AccountDialog.DialogTitleKey, context.getString(R.string.edit_account_title))
+            bundle.putSerializable(AccountDialog.DialogItem, holder.item)
+            dialog.arguments = bundle
+            dialog.show((context as AppCompatActivity).supportFragmentManager, AccountDialog.DialogName)})
+
         val account = accounts[position]
         holder.item = account
         holder.logoView.setImageResource(account.logoResource)
@@ -64,6 +76,8 @@ import com.ucasoft.money.model.MoneyBankAccount
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val swipeLayout: SwipeLayout = view.findViewById(R.id.account_swipe) as SwipeLayout
+        val editButton: ImageView = view.findViewById(R.id.account_edit_button) as ImageView
+        //val deleteButton: ImageView = view.findViewById(R.id.account_delete_button) as ImageView
         val logoView: ImageView = view.findViewById(R.id.account_logo) as ImageView
         val bankNameView: TextView = view.findViewById(R.id.bank_name) as TextView
         val accountNameView: TextView = view.findViewById(R.id.account_name) as TextView

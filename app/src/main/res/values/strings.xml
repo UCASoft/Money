@@ -12,6 +12,7 @@
     <string name="nav_recipients_title">Recipients</string>
 
     <string name="add_account_title">Add Account</string>
+    <string name="edit_account_title">Edit Account</string>
     <string name="dialog_account_type">Type</string>
     <string name="dialog_account_name">Name</string>
     <string name="dialog_account_bank">Bank</string>

@@ -8,6 +8,7 @@
     <string name="nav_recipients_title">Получатели</string>
 
     <string name="add_account_title">Добавить аккаунт</string>
+    <string name="edit_account_title">Редактировать аккаунт</string>
     <string name="dialog_account_type">Тип</string>
     <string name="dialog_account_name">Название</string>
     <string name="dialog_account_bank">Банк</string>
