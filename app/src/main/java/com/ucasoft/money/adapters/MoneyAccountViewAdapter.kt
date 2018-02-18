@@ -14,6 +14,7 @@ import com.daimajia.swipe.SwipeLayout
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter
 import com.ucasoft.money.R
 import com.ucasoft.money.fragments.dialogs.AccountDialog
+import com.ucasoft.money.listeners.AdapterChangeModeListener
 
 import com.ucasoft.money.model.MoneyAccount
 import com.ucasoft.money.model.MoneyBankAccount
@@ -22,6 +23,8 @@ import com.ucasoft.money.model.MoneyBankAccount
  * [RecyclerView.Adapter] that can display a [MoneyAccount]
  */
  class MoneyAccountViewAdapter(private val accounts:List<MoneyAccount>):RecyclerSwipeAdapter<MoneyAccountViewAdapter.ViewHolder>() {
+
+    var editModeListener: AdapterChangeModeListener? = null
 
     override fun getSwipeLayoutResourceId(position: Int): Int {
         return R.id.account_swipe
@@ -42,6 +45,46 @@ import com.ucasoft.money.model.MoneyBankAccount
         holder.swipeLayout.showMode = SwipeLayout.ShowMode.PullOut
         holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Left, holder.swipeLayout.findViewById(R.id.account_swipe_delete))
         holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, holder.swipeLayout.findViewById(R.id.account_swipe_edit))
+        holder.swipeLayout.addSwipeListener(object: SwipeLayout.SwipeListener{
+
+            override fun onOpen(layout: SwipeLayout) {
+                if (editModeListener != null) {
+                    if (layout.dragEdge == SwipeLayout.DragEdge.Right) {
+                        editModeListener!!.editMode()
+                    }
+                }
+            }
+
+            override fun onUpdate(layout: SwipeLayout?, leftOffset: Int, topOffset: Int) {
+            }
+
+            override fun onStartOpen(layout: SwipeLayout) {
+                if (editModeListener != null){
+                    if (layout.dragEdge == SwipeLayout.DragEdge.Right) {
+                        editModeListener!!.editModeStart()
+                    }
+                }
+            }
+
+            override fun onStartClose(layout: SwipeLayout) {
+                if (editModeListener != null){
+                    if (layout.dragEdge == SwipeLayout.DragEdge.Right) {
+                        editModeListener!!.normalModeStart()
+                    }
+                }
+            }
+
+            override fun onHandRelease(layout: SwipeLayout?, xvel: Float, yvel: Float) {
+            }
+
+            override fun onClose(layout: SwipeLayout) {
+                if (editModeListener != null){
+                    if (layout.dragEdge == SwipeLayout.DragEdge.Right) {
+                        editModeListener!!.normalMode()
+                    }
+                }
+            }
+        })
 
         holder.editButton.setOnClickListener({ view ->
             val dialog = AccountDialog()

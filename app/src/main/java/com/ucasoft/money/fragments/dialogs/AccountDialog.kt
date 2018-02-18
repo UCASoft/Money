@@ -59,6 +59,7 @@ class AccountDialog : DialogFragment() {
         } else {
             holder.accountTypeSpinner.setSelection(0)
         }
+        holder.accountTypeSpinner.isEnabled = false
         holder.accountNameView.setText((account as MoneyAccount).name)
         val currencyViewAdapter = CurrencyViewAdapter(context, (account as MoneyAccount).currencies)
         for (i in 0 until currencyViewAdapter.count) {
