@@ -10,11 +10,19 @@ import com.ucasoft.controls.AdapterLinearLayout
 import com.ucasoft.money.R
 import com.ucasoft.money.adapters.CardViewAdapter
 import com.ucasoft.money.adapters.CurrencyViewAdapter
+import com.ucasoft.money.listeners.DialogListener
 import com.ucasoft.money.model.MoneyAccount
 import com.ucasoft.money.model.MoneyBankAccount
 import java.io.Serializable
 
-class AccountDialog : DialogFragment() {
+class AccountDialog : DialogFragment(), DialogListener {
+
+    override fun onDialogPositiveClick(dialog: DialogFragment) {
+        if (dialog is CurrencyDialog){
+            (account as MoneyAccount).currencies.add(dialog.currency!!)
+            currencyViewAdapter.notifyDataSetChanged()
+        }
+    }
 
     private var account: Serializable? = null
 
@@ -43,6 +51,12 @@ class AccountDialog : DialogFragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
 
+        }
+
+        holder.addCurrencyButton.setOnClickListener {
+            val currencyDialog = CurrencyDialog()
+            currencyDialog.setDialogListener(this)
+            currencyDialog.show(fragmentManager, CurrencyDialog.DialogName)
         }
 
         account = arguments.getSerializable(DialogItem)
@@ -86,5 +100,6 @@ class AccountDialog : DialogFragment() {
         val accountNameView = view.findViewById(R.id.dialog_account_name) as EditText
         val accountCurrenciesLayout = view.findViewById(R.id.dialog_currencies_layout) as AdapterLinearLayout
         val accountCardLayout = view.findViewById(R.id.dialog_cards_layout) as AdapterLinearLayout
+        val addCurrencyButton = view.findViewById(R.id.dialog_add_currency_button) as Button
     }
 }

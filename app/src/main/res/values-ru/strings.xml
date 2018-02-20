@@ -14,4 +14,9 @@
     <string name="dialog_account_bank">Банк</string>
     <string name="dialog_add_currencies">Валюты</string>
     <string name="dialog_account_cards">Карты</string>
+
+    <string name="add_currency_title">Добавить валюту</string>
+    <string name="dialog_currency_code">Код валюты</string>
+    <string name="dialog_currency_balance">Начальный баланс</string>
+
 </resources>

@@ -19,4 +19,8 @@
     <string name="dialog_add_currencies">Currencies</string>
     <string name="dialog_account_cards">Cards</string>
 
+    <string name="add_currency_title">Add Currency</string>
+    <string name="dialog_currency_code">Currency Code</string>
+    <string name="dialog_currency_balance">Initial balance</string>
+
 </resources>
