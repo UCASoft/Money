@@ -8,10 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.daimajia.swipe.SwipeLayout
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter
+import com.ucasoft.controls.AdapterLinearLayout
 import com.ucasoft.money.R
 import com.ucasoft.money.fragments.dialogs.AccountDialog
 import com.ucasoft.money.listeners.AdapterChangeModeListener
@@ -98,17 +98,11 @@ import com.ucasoft.money.model.MoneyBankAccount
         holder.item = account
         holder.logoView.setImageResource(account.logoResource)
         holder.accountNameView.text = account.name
-        val currencyAdapter = CurrencyViewAdapter(context, account.currencies)
-        for (i in 0 until currencyAdapter.count){
-            holder.currenciesView.addView(currencyAdapter.getView(i))
-        }
+        holder.currenciesView.setAdapter(CurrencyViewAdapter(context, account.currencies))
         if (account is MoneyBankAccount) {
             holder.bankNameView.text = account.bank.name
             if (account.cards != null) {
-                val cardAdapter = CardViewAdapter(context, R.layout.card, account.cards!!)
-                for (i in 0 until cardAdapter.count) {
-                    holder.cardsView.addView(cardAdapter.getView(i))
-                }
+                holder.cardsView.setAdapter(CardViewAdapter(context, R.layout.card, account.cards!!))
             }
         }
     }
@@ -118,14 +112,14 @@ import com.ucasoft.money.model.MoneyBankAccount
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val swipeLayout: SwipeLayout = view.findViewById(R.id.account_swipe) as SwipeLayout
-        val editButton: ImageView = view.findViewById(R.id.account_edit_button) as ImageView
-        //val deleteButton: ImageView = view.findViewById(R.id.account_delete_button) as ImageView
-        val logoView: ImageView = view.findViewById(R.id.account_logo) as ImageView
-        val bankNameView: TextView = view.findViewById(R.id.bank_name) as TextView
-        val accountNameView: TextView = view.findViewById(R.id.account_name) as TextView
-        val currenciesView: LinearLayout = view.findViewById(R.id.account_currencies) as LinearLayout
-        val cardsView: LinearLayout = view.findViewById(R.id.account_cards) as LinearLayout
+        val swipeLayout = view.findViewById(R.id.account_swipe) as SwipeLayout
+        val editButton = view.findViewById(R.id.account_edit_button) as ImageView
+        //val deleteButton = view.findViewById(R.id.account_delete_button) as ImageView
+        val logoView = view.findViewById(R.id.account_logo) as ImageView
+        val bankNameView = view.findViewById(R.id.bank_name) as TextView
+        val accountNameView = view.findViewById(R.id.account_name) as TextView
+        val currenciesView = view.findViewById(R.id.account_currencies) as AdapterLinearLayout
+        val cardsView = view.findViewById(R.id.account_cards) as AdapterLinearLayout
         var item: MoneyAccount? = null
 
         override fun toString(): String {

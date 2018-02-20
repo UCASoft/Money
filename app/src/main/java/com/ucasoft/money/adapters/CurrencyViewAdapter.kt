@@ -10,10 +10,6 @@ import com.ucasoft.money.model.MoneyCurrency
 
 class CurrencyViewAdapter(context: Context?, private var currencies: List<MoneyCurrency>) : ArrayAdapter<MoneyCurrency>(context, 0, currencies) {
 
-    fun getView(position: Int): View{
-        return getView(position, null, null)
-    }
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view : View = convertView ?: TextView(context)
         val resultView = view as TextView

@@ -14,10 +14,6 @@ class CardViewAdapter(context: Context?, var resource: Int, var cards: List<Card
 
     private var inflater : LayoutInflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    fun getView(position: Int): View{
-        return getView(position, null, null)
-    }
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val resultView : View = convertView ?: inflater.inflate(resource, null)
         val holder = ViewHolder(resultView)

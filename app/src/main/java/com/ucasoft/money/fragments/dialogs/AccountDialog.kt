@@ -6,6 +6,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.*
+import com.ucasoft.controls.AdapterLinearLayout
 import com.ucasoft.money.R
 import com.ucasoft.money.adapters.CardViewAdapter
 import com.ucasoft.money.adapters.CurrencyViewAdapter
@@ -16,6 +17,11 @@ import java.io.Serializable
 class AccountDialog : DialogFragment() {
 
     private var account: Serializable? = null
+
+    private lateinit var currencyViewAdapter: CurrencyViewAdapter
+
+    private lateinit var cardViewAdapter: CardViewAdapter
+
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(activity)
@@ -61,15 +67,10 @@ class AccountDialog : DialogFragment() {
         }
         holder.accountTypeSpinner.isEnabled = false
         holder.accountNameView.setText((account as MoneyAccount).name)
-        val currencyViewAdapter = CurrencyViewAdapter(context, (account as MoneyAccount).currencies)
-        for (i in 0 until currencyViewAdapter.count) {
-            holder.accountCurrenciesLayout.addView(currencyViewAdapter.getView(i))
-        }
+        currencyViewAdapter = CurrencyViewAdapter(context, (account as MoneyAccount).currencies)
+        holder.accountCurrenciesLayout.setAdapter(currencyViewAdapter)
         if (isBankAccount && (account as MoneyBankAccount).cards != null) {
-            val cardViewAdapter = CardViewAdapter(context, R.layout.card, (account as MoneyBankAccount).cards!!)
-            for (i in 0 until cardViewAdapter.count) {
-                holder.accountCardLayout.addView(cardViewAdapter.getView(i))
-            }
+            holder.accountCardLayout.setAdapter(CardViewAdapter(context, R.layout.card, (account as MoneyBankAccount).cards!!))
         }
     }
 
@@ -83,7 +84,7 @@ class AccountDialog : DialogFragment() {
         val accountTypeSpinner = view.findViewById(R.id.dialog_account_type) as Spinner
         val accountBankLayout = view.findViewById(R.id.dialog_bank_layout) as LinearLayout
         val accountNameView = view.findViewById(R.id.dialog_account_name) as EditText
-        val accountCurrenciesLayout = view.findViewById(R.id.dialog_currencies_layout) as LinearLayout
-        val accountCardLayout = view.findViewById(R.id.dialog_cards_layout) as LinearLayout
+        val accountCurrenciesLayout = view.findViewById(R.id.dialog_currencies_layout) as AdapterLinearLayout
+        val accountCardLayout = view.findViewById(R.id.dialog_cards_layout) as AdapterLinearLayout
     }
 }
