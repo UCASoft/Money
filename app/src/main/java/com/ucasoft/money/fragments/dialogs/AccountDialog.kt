@@ -15,7 +15,9 @@ import com.ucasoft.money.model.MoneyAccount
 import com.ucasoft.money.model.MoneyBankAccount
 import java.io.Serializable
 
-class AccountDialog : DialogFragment(), DialogListener {
+class AccountDialog : MoneyDialog(), DialogListener {
+
+    override var viewResourceId: Int = R.layout.dialog_account
 
     override fun onDialogPositiveClick(dialog: DialogFragment) {
         if (dialog is CurrencyDialog){
@@ -33,11 +35,9 @@ class AccountDialog : DialogFragment(), DialogListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(activity)
-        val inflater = activity.layoutInflater
-
-        val view = inflater.inflate(R.layout.dialog_account, null)
+        val view = inflateView()
         val holder = DialogHolder(view)
-        holder.accountTypeSpinner.adapter = ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.account_types))
+        holder.accountTypeSpinner.adapter = ArrayAdapter.createFromResource(context, R.array.account_types, android.R.layout.simple_list_item_1)
         holder.accountTypeSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
