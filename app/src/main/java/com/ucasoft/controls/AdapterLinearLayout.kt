@@ -13,8 +13,11 @@ class AdapterLinearLayout : LinearLayout {
     private val dataSetObserver = object: DataSetObserver(){
 
         override fun onChanged() {
-            super.onChanged()
             reloadChildren()
+        }
+
+        override fun onInvalidated() {
+            removeAllViews()
         }
     }
 
@@ -26,14 +29,10 @@ class AdapterLinearLayout : LinearLayout {
         if (this.adapter == adapter){
             return
         }
+        this.adapter?.unregisterDataSetObserver(dataSetObserver)
         this.adapter = adapter
-        adapter?.registerDataSetObserver(dataSetObserver)
+        this.adapter?.registerDataSetObserver(dataSetObserver)
         reloadChildren()
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        adapter?.unregisterDataSetObserver(dataSetObserver)
     }
 
     private fun reloadChildren() {
