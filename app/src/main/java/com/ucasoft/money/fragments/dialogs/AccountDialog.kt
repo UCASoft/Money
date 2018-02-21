@@ -23,6 +23,9 @@ class AccountDialog : MoneyDialog(), DialogListener {
         if (dialog is CurrencyDialog){
             (account as MoneyAccount).currencies.add(dialog.currency!!)
             currencyViewAdapter.notifyDataSetChanged()
+        } else if(dialog is CardDialog){
+            (account as MoneyBankAccount).cards?.add(dialog.card!!)
+            cardViewAdapter.notifyDataSetChanged()
         }
     }
 
@@ -59,6 +62,12 @@ class AccountDialog : MoneyDialog(), DialogListener {
             currencyDialog.show(fragmentManager, CurrencyDialog.DialogName)
         }
 
+        holder.addCardButton.setOnClickListener{
+            val cardDialog = CardDialog()
+            cardDialog.setDialogListener(this)
+            cardDialog.show(fragmentManager, CardDialog.DialogName)
+        }
+
         account = arguments.getSerializable(DialogItem)
 
         if (account != null){
@@ -84,7 +93,8 @@ class AccountDialog : MoneyDialog(), DialogListener {
         currencyViewAdapter = CurrencyViewAdapter(context, (account as MoneyAccount).currencies)
         holder.accountCurrenciesLayout.setAdapter(currencyViewAdapter)
         if (isBankAccount && (account as MoneyBankAccount).cards != null) {
-            holder.accountCardLayout.setAdapter(CardViewAdapter(context, R.layout.card, (account as MoneyBankAccount).cards!!))
+            cardViewAdapter = CardViewAdapter(context, R.layout.card, (account as MoneyBankAccount).cards!!)
+            holder.accountCardLayout.setAdapter(cardViewAdapter)
         }
     }
 
@@ -101,5 +111,6 @@ class AccountDialog : MoneyDialog(), DialogListener {
         val accountCurrenciesLayout = view.findViewById(R.id.dialog_currencies_layout) as AdapterLinearLayout
         val accountCardLayout = view.findViewById(R.id.dialog_cards_layout) as AdapterLinearLayout
         val addCurrencyButton = view.findViewById(R.id.dialog_add_currency_button) as Button
+        val addCardButton = view.findViewById(R.id.dialog_add_card_button) as Button
     }
 }

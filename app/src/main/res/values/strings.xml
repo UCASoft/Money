@@ -22,5 +22,8 @@
     <string name="add_currency_title">Add Currency</string>
     <string name="dialog_currency_code">Currency Code</string>
     <string name="dialog_currency_balance">Initial balance</string>
+    <string name="dialog_card_system">Payment system</string>
+    <string name="dialog_card_digits_hint">Last four digits of the card</string>
+    <string name="add_card_title">Add Card</string>
 
 </resources>

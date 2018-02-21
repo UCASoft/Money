@@ -19,4 +19,8 @@
     <string name="dialog_currency_code">Код валюты</string>
     <string name="dialog_currency_balance">Начальный баланс</string>
 
+    <string name="add_card_title">Добавить карту</string>
+    <string name="dialog_card_system">Платежная система</string>
+    <string name="dialog_card_digits_hint">Последние 4 цифры карты</string>
+
 </resources>
