@@ -57,7 +57,7 @@ import kotlin.collections.ArrayList
     private fun buildCurrency(currency: JSONObject): MoneyCurrency {
         val amount = currency.getDouble("amount")
         val currencyCode = currency.getString("currency")
-        return MoneyCurrency(amount, currencyCode)
+        return MoneyCurrency.newInstance(amount, currencyCode)
     }
 
     private fun buildBank(jsonBank: JSONObject): Bank {

@@ -2,7 +2,11 @@ package com.ucasoft.money.model
 
 import java.util.*
 
-class MoneyCurrency(private val amount: Double, private val currencyCode: String) {
+class MoneyCurrency {
+
+    var amount: Double = 0.0
+
+    lateinit var currencyCode: String
 
     override fun toString(): String {
 
@@ -13,6 +17,14 @@ class MoneyCurrency(private val amount: Double, private val currencyCode: String
     }
 
     companion object {
+
         val Symbols: HashMap<String, String> = hashMapOf("RUB" to "₽", "CZK" to "Kč", "USD" to "$", "EUR" to "€", "THB" to "฿")
+
+        fun newInstance(balance: Double, currencyCode: String) : MoneyCurrency {
+            val currency = MoneyCurrency()
+            currency.amount = balance
+            currency.currencyCode = currencyCode
+            return currency
+        }
     }
 }
