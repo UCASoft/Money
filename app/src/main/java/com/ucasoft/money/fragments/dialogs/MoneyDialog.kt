@@ -16,6 +16,6 @@ open class MoneyDialog: DialogFragment() {
     }
 
     fun setDialogListener(dialogListener: DialogListener){
-        listener = dialogListener;
+        listener = dialogListener
     }
 }

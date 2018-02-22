@@ -25,7 +25,7 @@ class CurrencyDialog : MoneyDialog() {
 
         builder.setView(view)
                 .setTitle(R.string.add_currency_title)
-                .setPositiveButton(android.R.string.ok) { dialogInterface, id ->
+                .setPositiveButton(android.R.string.ok) { dialog, id ->
                     currency = MoneyCurrency.newInstance(holder.currencyBalanceEdit.text.toString().toDouble(), holder.currencyCodeText.text.toString())
                     listener?.onDialogPositiveClick(this)
                 }

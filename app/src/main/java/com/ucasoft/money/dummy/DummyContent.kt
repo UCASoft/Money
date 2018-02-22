@@ -40,7 +40,7 @@ import kotlin.collections.ArrayList
             var cards : ArrayList<Card>? = null
             if (account.has("cards")) {
                 val jsonCards = account.getJSONArray("cards")
-                cards = ArrayList<Card>(jsonCards.length())
+                cards = ArrayList(jsonCards.length())
                 (0 until jsonCards.length()).mapTo(cards) { buildCard(jsonCards.getJSONObject(it)) }
             }
             return MoneyBankAccount.newInstance(accountLogo, name, currencies, bank, cards)

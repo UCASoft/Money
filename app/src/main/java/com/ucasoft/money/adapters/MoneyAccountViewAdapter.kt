@@ -94,14 +94,15 @@ import com.ucasoft.money.model.MoneyBankAccount
             }
         })
 
-        holder.editButton.setOnClickListener{ view ->
+        holder.editButton.setOnClickListener{
             val dialog = AccountDialog()
             val bundle = Bundle()
             bundle.putString(AccountDialog.DialogTitleKey, context.getString(R.string.edit_account_title))
             bundle.putSerializable(AccountDialog.DialogItem, holder.item)
             dialog.arguments = bundle
             dialog.setDialogListener(this)
-            dialog.show((context as AppCompatActivity).supportFragmentManager, AccountDialog.DialogName)}
+            dialog.show((context as AppCompatActivity).supportFragmentManager, AccountDialog.DialogName)
+        }
 
         val account = accounts[position]
         holder.item = account

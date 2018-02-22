@@ -14,7 +14,7 @@ class CurrencyViewAdapter(context: Context?, private var currencies: List<MoneyC
         val view : View = convertView ?: TextView(context)
         val resultView = view as TextView
         resultView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        resultView.gravity = Gravity.RIGHT
+        resultView.gravity = Gravity.END
         val holder = ViewHolder(resultView)
         val currency = currencies[position]
         holder.item = currency

@@ -34,7 +34,7 @@ class CardDialog : MoneyDialog() {
 
         builder.setView(view)
                 .setTitle(R.string.add_card_title)
-                .setPositiveButton(android.R.string.ok) { dialogInterface, id ->
+                .setPositiveButton(android.R.string.ok) { dialog, id ->
                     card = Card.newInstance((holder.cardSystem.selectedItem as PaymentSystem).logoResource, holder.cardDigits.text.toString())
                     listener?.onDialogPositiveClick(this)
                 }
