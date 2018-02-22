@@ -18,7 +18,7 @@ import kotlin.collections.ArrayList
  */
  class DummyContent constructor(private var context: Context){
 
-    lateinit var MoneyAccounts: MutableList<MoneyAccount>
+    lateinit var MoneyAccounts: ArrayList<MoneyAccount>
 
     init {
         val jsonDummies = loadDummyJson()

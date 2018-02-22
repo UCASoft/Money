@@ -10,7 +10,7 @@ import android.widget.TextView
 import com.ucasoft.money.R
 import com.ucasoft.money.model.Card
 
-class CardViewAdapter(context: Context?, var resource: Int, var cards: List<Card>): ArrayAdapter<Card>(context, resource, cards) {
+class CardViewAdapter(context: Context?, var resource: Int, private var cards: List<Card>): ArrayAdapter<Card>(context, resource, cards) {
 
     private var inflater : LayoutInflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 

@@ -11,9 +11,9 @@ import com.ucasoft.money.R
 import com.ucasoft.money.adapters.CardViewAdapter
 import com.ucasoft.money.adapters.CurrencyViewAdapter
 import com.ucasoft.money.listeners.DialogListener
+import com.ucasoft.money.model.Bank
 import com.ucasoft.money.model.MoneyAccount
 import com.ucasoft.money.model.MoneyBankAccount
-import java.io.Serializable
 
 class AccountDialog : MoneyDialog(), DialogListener {
 
@@ -21,7 +21,7 @@ class AccountDialog : MoneyDialog(), DialogListener {
 
     override fun onDialogPositiveClick(dialog: DialogFragment) {
         if (dialog is CurrencyDialog){
-            (account as MoneyAccount).currencies.add(dialog.currency!!)
+            account?.currencies?.add(dialog.currency!!)
             currencyViewAdapter.notifyDataSetChanged()
         } else if(dialog is CardDialog){
             (account as MoneyBankAccount).cards?.add(dialog.card!!)
@@ -29,11 +29,13 @@ class AccountDialog : MoneyDialog(), DialogListener {
         }
     }
 
-    private var account: Serializable? = null
+    private var account: MoneyAccount? = null
 
     private lateinit var currencyViewAdapter: CurrencyViewAdapter
 
     private lateinit var cardViewAdapter: CardViewAdapter
+
+    private var mode: DialogMode = DialogMode.Add
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -48,6 +50,15 @@ class AccountDialog : MoneyDialog(), DialogListener {
                     holder.accountBankLayout.visibility = View.GONE
                 } else {
                     holder.accountBankLayout.visibility = View.VISIBLE
+                }
+
+                if (mode == DialogMode.Add) {
+                    account = if (position == 0){
+                        MoneyAccount.newInstance(R.drawable.ic_wallet_color_48dp, "", ArrayList())
+                    } else {
+                        MoneyBankAccount.newInstance(R.drawable.ic_bank_color_48dp, "", ArrayList(), Bank.newInstance("ВТБ"), ArrayList())
+                    }
+                    initAdapters(holder)
                 }
             }
 
@@ -68,15 +79,21 @@ class AccountDialog : MoneyDialog(), DialogListener {
             cardDialog.show(fragmentManager, CardDialog.DialogName)
         }
 
-        account = arguments.getSerializable(DialogItem)
+        account = arguments.getSerializable(DialogItem) as MoneyAccount?
 
         if (account != null){
+            mode = DialogMode.Edit
             assignAccount(holder)
         }
 
         builder.setView(view)
                 .setTitle(arguments.getString(DialogTitleKey))
-                .setPositiveButton(android.R.string.ok, null)
+                .setPositiveButton(android.R.string.ok, { dialog, id ->
+                    account!!.name = holder.accountNameView.text.toString()
+                    arguments.putSerializable(DialogItem, account)
+                    listener?.onDialogPositiveClick(this)
+                    this.dialog.dismiss()
+                })
                 .setNegativeButton(android.R.string.cancel, {dialog, id -> this.dialog.cancel() })
         return builder.create()
     }
@@ -90,9 +107,13 @@ class AccountDialog : MoneyDialog(), DialogListener {
         }
         holder.accountTypeSpinner.isEnabled = false
         holder.accountNameView.setText((account as MoneyAccount).name)
-        currencyViewAdapter = CurrencyViewAdapter(context, (account as MoneyAccount).currencies)
+        initAdapters(holder)
+    }
+
+    private fun initAdapters(holder: DialogHolder){
+        currencyViewAdapter = CurrencyViewAdapter(context, account!!.currencies)
         holder.accountCurrenciesLayout.setAdapter(currencyViewAdapter)
-        if (isBankAccount && (account as MoneyBankAccount).cards != null) {
+        if (account is MoneyBankAccount && (account as MoneyBankAccount).cards != null){
             cardViewAdapter = CardViewAdapter(context, R.layout.card, (account as MoneyBankAccount).cards!!)
             holder.accountCardLayout.setAdapter(cardViewAdapter)
         }

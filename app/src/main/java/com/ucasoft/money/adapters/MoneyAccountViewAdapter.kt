@@ -2,6 +2,7 @@ package com.ucasoft.money.adapters
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.ucasoft.controls.AdapterLinearLayout
 import com.ucasoft.money.R
 import com.ucasoft.money.fragments.dialogs.AccountDialog
 import com.ucasoft.money.listeners.AdapterChangeModeListener
+import com.ucasoft.money.listeners.DialogListener
 
 import com.ucasoft.money.model.MoneyAccount
 import com.ucasoft.money.model.MoneyBankAccount
@@ -22,9 +24,15 @@ import com.ucasoft.money.model.MoneyBankAccount
 /**
  * [RecyclerView.Adapter] that can display a [MoneyAccount]
  */
- class MoneyAccountViewAdapter(private val accounts:List<MoneyAccount>):RecyclerSwipeAdapter<MoneyAccountViewAdapter.ViewHolder>() {
+ class MoneyAccountViewAdapter(private val accounts:ArrayList<MoneyAccount>):RecyclerSwipeAdapter<MoneyAccountViewAdapter.ViewHolder>(), DialogListener {
 
-    var editModeListener: AdapterChangeModeListener? = null
+    override fun onDialogPositiveClick(dialog: DialogFragment) {
+        if (dialog is AccountDialog){
+            this.notifyDataSetChanged()
+        }
+    }
+
+    var changeModeListener: AdapterChangeModeListener? = null
 
     override fun getSwipeLayoutResourceId(position: Int): Int {
         return R.id.account_swipe
@@ -48,9 +56,9 @@ import com.ucasoft.money.model.MoneyBankAccount
         holder.swipeLayout.addSwipeListener(object: SwipeLayout.SwipeListener{
 
             override fun onOpen(layout: SwipeLayout) {
-                if (editModeListener != null) {
+                if (changeModeListener != null) {
                     if (layout.dragEdge == SwipeLayout.DragEdge.Right) {
-                        editModeListener!!.editMode()
+                        changeModeListener!!.editMode(holder.adapterPosition)
                     }
                 }
             }
@@ -59,17 +67,17 @@ import com.ucasoft.money.model.MoneyBankAccount
             }
 
             override fun onStartOpen(layout: SwipeLayout) {
-                if (editModeListener != null){
+                if (changeModeListener != null){
                     if (layout.dragEdge == SwipeLayout.DragEdge.Right) {
-                        editModeListener!!.editModeStart()
+                        changeModeListener!!.editModeStart(holder.adapterPosition)
                     }
                 }
             }
 
             override fun onStartClose(layout: SwipeLayout) {
-                if (editModeListener != null){
+                if (changeModeListener != null){
                     if (layout.dragEdge == SwipeLayout.DragEdge.Right) {
-                        editModeListener!!.normalModeStart()
+                        changeModeListener!!.normalModeStart(holder.adapterPosition)
                     }
                 }
             }
@@ -78,21 +86,22 @@ import com.ucasoft.money.model.MoneyBankAccount
             }
 
             override fun onClose(layout: SwipeLayout) {
-                if (editModeListener != null){
+                if (changeModeListener != null){
                     if (layout.dragEdge == SwipeLayout.DragEdge.Right) {
-                        editModeListener!!.normalMode()
+                        changeModeListener!!.normalMode(holder.adapterPosition)
                     }
                 }
             }
         })
 
-        holder.editButton.setOnClickListener({ view ->
+        holder.editButton.setOnClickListener{ view ->
             val dialog = AccountDialog()
             val bundle = Bundle()
             bundle.putString(AccountDialog.DialogTitleKey, context.getString(R.string.edit_account_title))
             bundle.putSerializable(AccountDialog.DialogItem, holder.item)
             dialog.arguments = bundle
-            dialog.show((context as AppCompatActivity).supportFragmentManager, AccountDialog.DialogName)})
+            dialog.setDialogListener(this)
+            dialog.show((context as AppCompatActivity).supportFragmentManager, AccountDialog.DialogName)}
 
         val account = accounts[position]
         holder.item = account
@@ -104,6 +113,9 @@ import com.ucasoft.money.model.MoneyBankAccount
             if (account.cards != null) {
                 holder.cardsView.setAdapter(CardViewAdapter(context, R.layout.card, account.cards!!))
             }
+        } else {
+            holder.bankNameView.text = ""
+            holder.cardsView.setAdapter(null)
         }
     }
 
