@@ -41,6 +41,15 @@ class CardDialog : MoneyDialog() {
         dismiss()
     }
 
+    override fun valid(): Boolean {
+        holder.cardDigits.error = null
+        if (holder.cardDigits.text.length < 4){
+            holder.cardDigits.error = getString(R.string.dialog_card_digits_error)
+            return false
+        }
+        return true
+    }
+
     companion object {
         const val DialogName = "CardDialog"
     }

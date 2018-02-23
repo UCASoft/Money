@@ -40,10 +40,16 @@ abstract class MoneyDialog: DialogFragment() {
         dialog.setOnShowListener {
             val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
             positiveButton.setOnClickListener {
-                positiveButtonListener()
+                if (valid()) {
+                    positiveButtonListener()
+                }
             }
         }
         return dialog
+    }
+
+    protected open fun valid(): Boolean {
+        return true
     }
 
     protected abstract fun positiveButtonListener()

@@ -31,6 +31,21 @@ class CurrencyDialog : MoneyDialog() {
         dismiss()
     }
 
+    override fun valid(): Boolean {
+        holder.currencyCodeText.error = null
+        holder.currencyBalanceEdit.error = null
+        var isError = false
+        if (holder.currencyCodeText.text.isEmpty()){
+            holder.currencyCodeText.error = getString(R.string.dialog_required_field)
+            isError = true
+        }
+        if (holder.currencyBalanceEdit.text.isEmpty()){
+            holder.currencyBalanceEdit.error = getString(R.string.dialog_required_field)
+            isError = true
+        }
+        return !isError
+    }
+
     companion object {
         const val DialogName = "CurrencyDialog"
     }

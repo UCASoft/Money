@@ -26,4 +26,7 @@
     <string name="dialog_card_digits_hint">Last four digits of the card</string>
     <string name="add_card_title">Add Card</string>
 
+    <string name="dialog_required_field">Field is required!</string>
+    <string name="dialog_card_digits_error">Field has contain 4 digits!</string>
+
 </resources>
