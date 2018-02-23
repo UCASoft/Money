@@ -3,7 +3,6 @@ package com.ucasoft.money.fragments.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
-import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -16,21 +15,20 @@ class CurrencyDialog : MoneyDialog() {
 
     override var viewResourceId: Int = R.layout.dialog_currency
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(activity)
+    private lateinit var holder: DialogHolder
 
-        val view = inflateView()
-        val holder = DialogHolder(view)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val view = customView
+        holder = DialogHolder(view)
         holder.currencyCodeText.setAdapter(ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, MoneyCurrency.Symbols.keys.toList()))
 
-        builder.setView(view)
-                .setTitle(R.string.add_currency_title)
-                .setPositiveButton(android.R.string.ok) { dialog, id ->
-                    currency = MoneyCurrency.newInstance(holder.currencyBalanceEdit.text.toString().toDouble(), holder.currencyCodeText.text.toString())
-                    listener?.onDialogPositiveClick(this)
-                }
-                .setNegativeButton(android.R.string.cancel, null)
-        return builder.create()
+       return buildDialog(R.string.add_currency_title)
+    }
+
+    override fun positiveButtonListener() {
+        currency = MoneyCurrency.newInstance(holder.currencyBalanceEdit.text.toString().toDouble(), holder.currencyCodeText.text.toString())
+        listener?.onDialogPositiveClick(this)
+        dismiss()
     }
 
     companion object {

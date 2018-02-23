@@ -3,7 +3,6 @@ package com.ucasoft.money.fragments.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
-import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Spinner
 import com.ucasoft.money.R
@@ -17,10 +16,11 @@ class CardDialog : MoneyDialog() {
 
     override var viewResourceId: Int = R.layout.dialog_card
 
+    private lateinit var holder: DialogHolder
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(activity)
-        val view = inflateView()
-        val holder = DialogHolder(view)
+        val view = customView
+        holder = DialogHolder(view)
 
         val systemNames = resources.getStringArray(R.array.payment_system_names)
         val systemLogos = resources.obtainTypedArray(R.array.payment_system_logos)
@@ -32,15 +32,13 @@ class CardDialog : MoneyDialog() {
         val adapter = PaymentSystemViewAdapter(context, R.layout.payment_system, paymentSystems)
         holder.cardSystem.adapter = adapter
 
-        builder.setView(view)
-                .setTitle(R.string.add_card_title)
-                .setPositiveButton(android.R.string.ok) { dialog, id ->
-                    card = Card.newInstance((holder.cardSystem.selectedItem as PaymentSystem).logoResource, holder.cardDigits.text.toString())
-                    listener?.onDialogPositiveClick(this)
-                }
-                .setNegativeButton(android.R.string.cancel, null)
+        return buildDialog(R.string.add_card_title)
+    }
 
-        return builder.create()
+    override fun positiveButtonListener() {
+        card = Card.newInstance((holder.cardSystem.selectedItem as PaymentSystem).logoResource, holder.cardDigits.text.toString())
+        listener?.onDialogPositiveClick(this)
+        dismiss()
     }
 
     companion object {

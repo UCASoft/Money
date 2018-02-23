@@ -3,7 +3,6 @@ package com.ucasoft.money.fragments.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.*
 import com.ucasoft.controls.AdapterLinearLayout
@@ -37,11 +36,11 @@ class AccountDialog : MoneyDialog(), DialogListener {
 
     private var mode: DialogMode = DialogMode.Add
 
+    private lateinit var holder: DialogHolder
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(activity)
-        val view = inflateView()
-        val holder = DialogHolder(view)
+        val view = customView
+        holder = DialogHolder(view)
         holder.accountTypeSpinner.adapter = ArrayAdapter.createFromResource(context, R.array.account_types, android.R.layout.simple_list_item_1)
         holder.accountTypeSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
 
@@ -86,16 +85,14 @@ class AccountDialog : MoneyDialog(), DialogListener {
             assignAccount(holder)
         }
 
-        builder.setView(view)
-                .setTitle(arguments.getString(DialogTitleKey))
-                .setPositiveButton(android.R.string.ok, { dialog, id ->
-                    account!!.name = holder.accountNameView.text.toString()
-                    arguments.putSerializable(DialogItem, account)
-                    listener?.onDialogPositiveClick(this)
-                    this.dialog.dismiss()
-                })
-                .setNegativeButton(android.R.string.cancel, {dialog, id -> this.dialog.cancel() })
-        return builder.create()
+        return buildDialog(arguments.getString(DialogTitleKey))
+    }
+
+    override fun positiveButtonListener() {
+        account!!.name = holder.accountNameView.text.toString()
+        arguments.putSerializable(DialogItem, account)
+        listener?.onDialogPositiveClick(this)
+        this.dialog.dismiss()
     }
 
     private fun assignAccount(holder: DialogHolder) {
