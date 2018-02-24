@@ -23,7 +23,7 @@ class AccountDialog : MoneyDialog(), DialogListener {
             account?.currencies?.add(dialog.currency!!)
             currencyViewAdapter.notifyDataSetChanged()
         } else if(dialog is CardDialog){
-            (account as MoneyBankAccount).cards?.add(dialog.card!!)
+            (account as MoneyBankAccount).cards.add(dialog.card!!)
             cardViewAdapter.notifyDataSetChanged()
         }
     }
@@ -110,8 +110,8 @@ class AccountDialog : MoneyDialog(), DialogListener {
     private fun initAdapters(holder: DialogHolder){
         currencyViewAdapter = CurrencyViewAdapter(context, account!!.currencies)
         holder.accountCurrenciesLayout.setAdapter(currencyViewAdapter)
-        if (account is MoneyBankAccount && (account as MoneyBankAccount).cards != null){
-            cardViewAdapter = CardViewAdapter(context, R.layout.card, (account as MoneyBankAccount).cards!!)
+        if (account is MoneyBankAccount){
+            cardViewAdapter = CardViewAdapter(context, R.layout.card, (account as MoneyBankAccount).cards)
             holder.accountCardLayout.setAdapter(cardViewAdapter)
         }
     }
