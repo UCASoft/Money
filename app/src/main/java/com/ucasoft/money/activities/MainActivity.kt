@@ -10,6 +10,7 @@ import android.view.MenuItem
 import com.ucasoft.money.R
 import com.ucasoft.money.fragments.AccountFragment
 import com.ucasoft.money.fragments.LocationsFragment
+import com.ucasoft.money.fragments.MainFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
@@ -26,6 +27,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        onNavigationItemSelected(nav_view.menu.findItem(R.id.nav_main))
     }
 
     override fun onBackPressed() {
@@ -40,7 +43,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var fragment : Fragment? = null
         when (item.itemId) {
             R.id.nav_main -> {
-
+                fragment = MainFragment.newInstance()
             }
             R.id.nav_accounts -> {
                 fragment = AccountFragment.newInstance()
