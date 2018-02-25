@@ -21,6 +21,7 @@ class AccountDialog : MoneyDialog(), DialogListener {
     override fun onDialogPositiveClick(dialog: DialogFragment) {
         if (dialog is CurrencyDialog){
             account?.currencies?.add(dialog.currency!!)
+            holder.accountCurrenciesLayout.error = null
             currencyViewAdapter.notifyDataSetChanged()
         } else if(dialog is CardDialog){
             (account as MoneyBankAccount).cards.add(dialog.card!!)
@@ -86,6 +87,21 @@ class AccountDialog : MoneyDialog(), DialogListener {
         }
 
         return buildDialog(arguments.getString(DialogTitleKey))
+    }
+
+    override fun valid(): Boolean {
+        holder.accountNameView.error = null
+        holder.accountCurrenciesLayout.error = null
+        var isError = false
+        if (holder.accountNameView.text.isEmpty()){
+            holder.accountNameView.error = getString(R.string.dialog_required_field)
+            isError = true
+        }
+        if (holder.accountCurrenciesLayout.childCount == 0){
+            holder.accountCurrenciesLayout.error = getString(R.string.dialog_currency_empty_error)
+            isError = true
+        }
+        return !isError
     }
 
     override fun positiveButtonListener() {

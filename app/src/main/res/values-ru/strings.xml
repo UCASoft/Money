@@ -25,5 +25,6 @@
 
     <string name="dialog_required_field">Поле обязательно для заполнения!</string>
     <string name="dialog_card_digits_error">Поле должно содержать 4 цифры!</string>
+    <string name="dialog_currency_empty_error">Добавьте хотя бы одну валюту!</string>
 
 </resources>
