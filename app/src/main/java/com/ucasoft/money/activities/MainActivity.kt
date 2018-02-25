@@ -16,6 +16,10 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    private val SELECTED_NAVIGATION_ITEM: String = "SELECTED_NAVIGATION_ITEM"
+
+    private var navSelectedItemId: Int = R.id.nav_main
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,6 +35,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         onNavigationItemSelected(nav_view.menu.findItem(R.id.nav_main))
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(SELECTED_NAVIGATION_ITEM, navSelectedItemId)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        navSelectedItemId = savedInstanceState.getInt(SELECTED_NAVIGATION_ITEM)
+        onNavigationItemSelected(nav_view.menu.findItem(navSelectedItemId))
+    }
+
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
@@ -41,6 +57,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         var fragment : Fragment? = null
+        navSelectedItemId = item.itemId
         when (item.itemId) {
             R.id.nav_main -> {
                 fragment = MainFragment.newInstance()
