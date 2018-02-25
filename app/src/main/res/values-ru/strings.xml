@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_main_title">Главная</string>
+    <string name="nav_accounts_title">Аккаунты</string>
+    <string name="nav_transactions_title">Транзакции</string>
+    <string name="nav_settings_title">Настройки</string>
+    <string name="nav_locations_title">Места</string>
+    <string name="nav_recipients_title">Получатели</string>
+
+    <string name="add_account_title">Добавить аккаунт</string>
+    <string name="edit_account_title">Редактировать аккаунт</string>
+    <string name="dialog_account_type">Тип</string>
+    <string name="dialog_account_name">Название</string>
+    <string name="dialog_account_bank">Банк</string>
+    <string name="dialog_add_currencies">Валюты</string>
+    <string name="dialog_account_cards">Карты</string>
+
+    <string name="add_currency_title">Добавить валюту</string>
+    <string name="dialog_currency_code">Код валюты</string>
+    <string name="dialog_currency_balance">Начальный баланс</string>
+
+    <string name="add_card_title">Добавить карту</string>
+    <string name="dialog_card_system">Платежная система</string>
+    <string name="dialog_card_digits_hint">Последние 4 цифры карты</string>
+
+    <string name="dialog_required_field">Поле обязательно для заполнения!</string>
+    <string name="dialog_card_digits_error">Поле должно содержать 4 цифры!</string>
+    <string name="dialog_currency_empty_error">Добавьте хотя бы одну валюту!</string>
+
+</resources>

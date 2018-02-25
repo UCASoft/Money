@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="account_types">
+        <item>Наличные</item>
+        <item>Банковский счет</item>
+    </string-array>
+    <string-array name="payment_system_names">
+        <item>Master Card</item>
+        <item>Мир</item>
+        <item>Visa</item>
+    </string-array>
+</resources>

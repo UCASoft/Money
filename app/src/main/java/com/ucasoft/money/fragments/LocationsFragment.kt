@@ -27,4 +27,11 @@ class LocationsFragment : Fragment(), OnMapReadyCallback {
             map.isMyLocationEnabled = true
         }
     }
+
+    companion object {
+
+        fun newInstance(): LocationsFragment {
+            return LocationsFragment()
+        }
+    }
 }

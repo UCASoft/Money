@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="com.ucasoft.money.fragments.AccountFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="?attr/actionBarSize"
+    tools:context="com.ucasoft.money.fragments.AccountFragment"
+    tools:listitem="@layout/account">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        app:layoutManager="LinearLayoutManager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/account_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="5dp"
+        android:backgroundTint="?attr/colorPrimary"
+        app:borderWidth="0dp"
+        app:fabSize="normal"
+        android:src="@android:drawable/ic_menu_add"
+        />
+
+</FrameLayout>

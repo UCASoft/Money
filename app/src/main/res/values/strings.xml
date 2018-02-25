@@ -11,4 +11,23 @@
     <string name="nav_locations_title">Locations</string>
     <string name="nav_recipients_title">Recipients</string>
 
+    <string name="add_account_title">Add Account</string>
+    <string name="edit_account_title">Edit Account</string>
+    <string name="dialog_account_type">Type</string>
+    <string name="dialog_account_name">Name</string>
+    <string name="dialog_account_bank">Bank</string>
+    <string name="dialog_add_currencies">Currencies</string>
+    <string name="dialog_account_cards">Cards</string>
+
+    <string name="add_currency_title">Add Currency</string>
+    <string name="dialog_currency_code">Currency Code</string>
+    <string name="dialog_currency_balance">Initial balance</string>
+    <string name="dialog_card_system">Payment system</string>
+    <string name="dialog_card_digits_hint">Last four digits of the card</string>
+    <string name="add_card_title">Add Card</string>
+
+    <string name="dialog_required_field">Field is required!</string>
+    <string name="dialog_card_digits_error">Field has contain 4 digits!</string>
+    <string name="dialog_currency_empty_error">Add at least one currency!</string>
+
 </resources>
