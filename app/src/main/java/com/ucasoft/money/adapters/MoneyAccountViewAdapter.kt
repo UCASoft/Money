@@ -111,9 +111,7 @@ import com.ucasoft.money.model.MoneyBankAccount
         holder.currenciesView.setAdapter(CurrencyViewAdapter(context, account.currencies))
         if (account is MoneyBankAccount) {
             holder.bankNameView.text = account.bank.name
-            if (account.cards != null) {
-                holder.cardsView.setAdapter(CardViewAdapter(context, R.layout.card, account.cards!!))
-            }
+            holder.cardsView.setAdapter(CardViewAdapter(context, R.layout.card, account.cards))
         } else {
             holder.bankNameView.text = ""
             holder.cardsView.setAdapter(null)
