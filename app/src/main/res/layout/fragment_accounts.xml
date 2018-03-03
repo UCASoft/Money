@@ -5,7 +5,6 @@
     android:name="com.ucasoft.money.fragments.AccountFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="?attr/actionBarSize"
     tools:context="com.ucasoft.money.fragments.AccountFragment"
     tools:listitem="@layout/account">
 
