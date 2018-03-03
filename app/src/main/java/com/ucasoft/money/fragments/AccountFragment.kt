@@ -1,7 +1,6 @@
 package com.ucasoft.money.fragments
 
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
@@ -15,6 +14,7 @@ import com.ucasoft.money.R
 import com.ucasoft.money.adapters.MoneyAccountViewAdapter
 import com.ucasoft.money.dummy.DummyContent
 import com.ucasoft.money.fragments.dialogs.AccountDialog
+import com.ucasoft.money.helpers.PreferencesHelper
 import com.ucasoft.money.listeners.AdapterChangeModeListener
 import com.ucasoft.money.listeners.DialogListener
 import com.ucasoft.money.model.MoneyAccount
@@ -80,8 +80,7 @@ class AccountFragment: Fragment(), AdapterChangeModeListener, DialogListener {
 
         val totalLayout = view.findViewById(R.id.total_balance_layout) as LinearLayout
         val totalView = view.findViewById(R.id.total_balance_view) as TextView
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val homeCurrency = preferences.getString("home_currency", "")
+        val homeCurrency = PreferencesHelper.getInstance(context).getHomeCurrency()
         if (homeCurrency.isEmpty()){
             totalLayout.visibility = View.GONE
         } else {

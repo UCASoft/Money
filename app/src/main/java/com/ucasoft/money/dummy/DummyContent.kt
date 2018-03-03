@@ -1,8 +1,8 @@
 package com.ucasoft.money.dummy
 
 import android.content.Context
-import android.preference.PreferenceManager
 import com.ucasoft.money.R
+import com.ucasoft.money.helpers.PreferencesHelper
 import com.ucasoft.money.model.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -27,8 +27,7 @@ import kotlin.collections.ArrayList
     }
 
     private fun loadAccounts(dummies: JSONObject) {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        MoneyAccounts = MoneyAccounts(preferences.getString("home_currency", ""))
+        MoneyAccounts = MoneyAccounts(PreferencesHelper.getInstance(context).getHomeCurrency())
         val accounts = dummies.getJSONArray("accounts")
         (0 until accounts.length()).mapTo(MoneyAccounts){buildAccount(accounts.getJSONObject(it))}
     }
