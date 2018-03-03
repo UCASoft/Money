@@ -9,6 +9,8 @@
     <string name="nav_locations_title">Места</string>
     <string name="nav_recipients_title">Получатели</string>
 
+    <string name="accounts_total_label">Итого</string>
+
     <string name="add_account_title">Добавить аккаунт</string>
     <string name="edit_account_title">Редактировать аккаунт</string>
     <string name="dialog_account_type">Тип</string>

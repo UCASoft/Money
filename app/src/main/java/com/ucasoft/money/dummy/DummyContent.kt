@@ -1,6 +1,7 @@
 package com.ucasoft.money.dummy
 
 import android.content.Context
+import android.preference.PreferenceManager
 import com.ucasoft.money.R
 import com.ucasoft.money.model.*
 import org.json.JSONArray
@@ -16,9 +17,9 @@ import kotlin.collections.ArrayList
  *
  * TODO: Replace all uses of this class before publishing your app.
  */
- class DummyContent constructor(private var context: Context){
+ class DummyContent(private var context: Context){
 
-    lateinit var MoneyAccounts: ArrayList<MoneyAccount>
+    lateinit var MoneyAccounts: MoneyAccounts
 
     init {
         val jsonDummies = loadDummyJson()
@@ -26,7 +27,8 @@ import kotlin.collections.ArrayList
     }
 
     private fun loadAccounts(dummies: JSONObject) {
-        MoneyAccounts = ArrayList()
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        MoneyAccounts = MoneyAccounts(preferences.getString("home_currency", ""))
         val accounts = dummies.getJSONArray("accounts")
         (0 until accounts.length()).mapTo(MoneyAccounts){buildAccount(accounts.getJSONObject(it))}
     }
@@ -82,5 +84,15 @@ import kotlin.collections.ArrayList
     private fun convertStreamToString(stream: InputStream): String {
         val s = Scanner(stream).useDelimiter("\\A")
         return if (s.hasNext()) s.next() else ""
+    }
+
+    companion object {
+
+        val CurrenciesRate: HashMap<String, Double> = hashMapOf(
+                "CZKRUB" to 0.362,
+                "CZKUSD" to 20.637,
+                "CZKEUR" to 25.384,
+                "CZKTHB" to 0.656
+        )
     }
 }
