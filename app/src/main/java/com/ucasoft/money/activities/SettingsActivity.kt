@@ -11,6 +11,7 @@ import android.preference.PreferenceFragment
 import android.preference.PreferenceManager
 import android.view.MenuItem
 import com.ucasoft.money.R
+import com.ucasoft.money.helpers.PreferencesHelper
 import com.ucasoft.money.model.MoneyCurrency
 
 class SettingsActivity : AppCompatPreferenceActivity() {
@@ -55,7 +56,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             addPreferencesFromResource(R.xml.accounts_preferences)
             setHasOptionsMenu(true)
 
-            val listPreference = findPreference("home_currency") as ListPreference
+            val listPreference = findPreference(PreferencesHelper.HomeCurrencyKey) as ListPreference
             loadCurrencies(listPreference)
             bindPreferenceSummaryToValue(listPreference)
         }
