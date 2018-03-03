@@ -1,5 +1,6 @@
 package com.ucasoft.money.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -56,7 +57,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        var fragment : Fragment? = null
+
+        when(item.groupId){
+            R.id.nav_group_main -> {
+                return onMainGroupItemSelected(item)
+            }
+            R.id.nav_group_additional -> {
+                return onAdditionalGroupItemSelected(item)
+            }
+        }
+
+        return false
+    }
+
+    private fun onMainGroupItemSelected(item: MenuItem): Boolean {
+        var fragment: Fragment? = null
         navSelectedItemId = item.itemId
         when (item.itemId) {
             R.id.nav_main -> {
@@ -83,6 +98,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         title = item.title
         drawer_layout.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+    private fun onAdditionalGroupItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.nav_settings -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+            }
+        }
         return true
     }
 }
