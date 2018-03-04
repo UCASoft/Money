@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Money</string>
+
+    <string name="currency_rates_provider_label">Currency Rates</string>
 </resources>
