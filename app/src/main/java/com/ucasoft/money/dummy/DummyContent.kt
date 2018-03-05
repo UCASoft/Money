@@ -2,7 +2,6 @@ package com.ucasoft.money.dummy
 
 import android.content.Context
 import com.ucasoft.money.R
-import com.ucasoft.money.helpers.PreferencesHelper
 import com.ucasoft.money.model.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -21,13 +20,20 @@ import kotlin.collections.ArrayList
 
     lateinit var MoneyAccounts: MoneyAccounts
 
+    val CurrenciesRate: HashMap<String, Double> = hashMapOf(
+            "CZKRUB" to 0.362,
+            "CZKUSD" to 20.637,
+            "CZKEUR" to 25.384,
+            "CZKTHB" to 0.656
+    )
+
     init {
         val jsonDummies = loadDummyJson()
         loadAccounts(jsonDummies)
     }
 
     private fun loadAccounts(dummies: JSONObject) {
-        MoneyAccounts = MoneyAccounts(PreferencesHelper.getInstance(context).getHomeCurrency())
+        MoneyAccounts = MoneyAccounts(context)
         val accounts = dummies.getJSONArray("accounts")
         (0 until accounts.length()).mapTo(MoneyAccounts){buildAccount(accounts.getJSONObject(it))}
     }
@@ -83,15 +89,5 @@ import kotlin.collections.ArrayList
     private fun convertStreamToString(stream: InputStream): String {
         val s = Scanner(stream).useDelimiter("\\A")
         return if (s.hasNext()) s.next() else ""
-    }
-
-    companion object {
-
-        val CurrenciesRate: HashMap<String, Double> = hashMapOf(
-                "CZKRUB" to 0.362,
-                "CZKUSD" to 20.637,
-                "CZKEUR" to 25.384,
-                "CZKTHB" to 0.656
-        )
     }
 }
