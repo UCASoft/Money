@@ -16,9 +16,16 @@ import kotlin.collections.ArrayList
  *
  * TODO: Replace all uses of this class before publishing your app.
  */
- class DummyContent constructor(private var context: Context){
+ class DummyContent(private var context: Context){
 
-    lateinit var MoneyAccounts: ArrayList<MoneyAccount>
+    lateinit var MoneyAccounts: MoneyAccounts
+
+    val CurrenciesRate: HashMap<String, Double> = hashMapOf(
+            "CZKRUB" to 0.362,
+            "CZKUSD" to 20.637,
+            "CZKEUR" to 25.384,
+            "CZKTHB" to 0.656
+    )
 
     init {
         val jsonDummies = loadDummyJson()
@@ -26,7 +33,7 @@ import kotlin.collections.ArrayList
     }
 
     private fun loadAccounts(dummies: JSONObject) {
-        MoneyAccounts = ArrayList()
+        MoneyAccounts = MoneyAccounts(context)
         val accounts = dummies.getJSONArray("accounts")
         (0 until accounts.length()).mapTo(MoneyAccounts){buildAccount(accounts.getJSONObject(it))}
     }
