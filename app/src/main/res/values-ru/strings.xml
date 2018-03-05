@@ -2,6 +2,8 @@
 <resources>
     <string name="title_settings_activity">Настройки</string>
 
+    <string name="currency_rates_provider_label">Курсы валют</string>
+
     <string name="nav_main_title">Главная</string>
     <string name="nav_accounts_title">Аккаунты</string>
     <string name="nav_transactions_title">Транзакции</string>
