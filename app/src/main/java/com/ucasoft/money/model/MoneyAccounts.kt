@@ -1,8 +1,8 @@
 package com.ucasoft.money.model
 
 import android.content.Context
+import com.ucasoft.money.contracts.IMoneyContent
 import com.ucasoft.money.dummy.DummyApplication
-import com.ucasoft.money.dummy.DummyContent
 import com.ucasoft.money.helpers.PreferencesHelper
 
 class MoneyAccounts(private val context: Context) : ArrayList<MoneyAccount>() {
@@ -18,7 +18,7 @@ class MoneyAccounts(private val context: Context) : ArrayList<MoneyAccount>() {
                     total += if (currency.currencyCode == homeCurrency){
                         currency.balance
                     } else {
-                        val multiplier = dummyContent().CurrenciesRate["$homeCurrency${currency.currencyCode}"]
+                        val multiplier = dummyContent().currenciesRate["$homeCurrency${currency.currencyCode}"]
                         currency.balance * multiplier!!
                     }
                 }
@@ -51,7 +51,7 @@ class MoneyAccounts(private val context: Context) : ArrayList<MoneyAccount>() {
         return preferencesHelper.getHomeCurrency()
     }
 
-    private fun dummyContent() : DummyContent{
+    private fun dummyContent() : IMoneyContent {
         return (context as DummyApplication).content
     }
 

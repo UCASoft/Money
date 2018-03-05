@@ -2,6 +2,7 @@ package com.ucasoft.money.dummy
 
 import android.content.Context
 import com.ucasoft.money.R
+import com.ucasoft.money.contracts.IMoneyContent
 import com.ucasoft.money.model.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -16,11 +17,11 @@ import kotlin.collections.ArrayList
  *
  * TODO: Replace all uses of this class before publishing your app.
  */
- class DummyContent(private var context: Context){
+ class DummyContent(private var context: Context) : IMoneyContent {
 
-    lateinit var MoneyAccounts: MoneyAccounts
+    override lateinit var accounts: MoneyAccounts
 
-    val CurrenciesRate: HashMap<String, Double> = hashMapOf(
+    override val currenciesRate: HashMap<String, Double> = hashMapOf(
             "CZKRUB" to 0.362,
             "CZKUSD" to 20.637,
             "CZKEUR" to 25.384,
@@ -33,9 +34,9 @@ import kotlin.collections.ArrayList
     }
 
     private fun loadAccounts(dummies: JSONObject) {
-        MoneyAccounts = MoneyAccounts(context)
+        accounts = MoneyAccounts(context)
         val accounts = dummies.getJSONArray("accounts")
-        (0 until accounts.length()).mapTo(MoneyAccounts){buildAccount(accounts.getJSONObject(it))}
+        (0 until accounts.length()).mapTo(this.accounts){buildAccount(accounts.getJSONObject(it))}
     }
 
     private fun buildAccount(account: JSONObject) : MoneyAccount{

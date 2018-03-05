@@ -23,13 +23,13 @@ class CurrencyRatesSyncAdapter(context: Context?, autoInitialize: Boolean) : Abs
             val homeCurrency = preferencesHelper.getHomeCurrency()
             if (!homeCurrency.isEmpty()) {
                 val content = (context as DummyApplication).content
-                content.CurrenciesRate.clear()
-                val rates = content.MoneyAccounts.getCurrenciesForRates().toList()
+                content.currenciesRate.clear()
+                val rates = content.accounts.getCurrenciesForRates().toList()
                 for (i in 0 until rates.size) {
                     val currencyCode = rates[i]
                     val result = URL("https://freecurrencyrates.com/api/action.php?do=cvals&iso=$homeCurrency&f=$currencyCode&v=1").readText()
                     val jObject = JSONObject(result)
-                    content.CurrenciesRate.set("$homeCurrency$currencyCode", jObject.getDouble(homeCurrency))
+                    content.currenciesRate.set("$homeCurrency$currencyCode", jObject.getDouble(homeCurrency))
                 }
             }
         }

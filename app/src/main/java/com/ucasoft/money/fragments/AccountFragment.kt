@@ -1,6 +1,5 @@
 package com.ucasoft.money.fragments
 
-import android.app.Application
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.DialogFragment
@@ -13,8 +12,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.ucasoft.money.R
 import com.ucasoft.money.adapters.MoneyAccountViewAdapter
+import com.ucasoft.money.contracts.IMoneyContent
 import com.ucasoft.money.dummy.DummyApplication
-import com.ucasoft.money.dummy.DummyContent
 import com.ucasoft.money.fragments.dialogs.AccountDialog
 import com.ucasoft.money.helpers.PreferencesHelper
 import com.ucasoft.money.listeners.AdapterChangeModeListener
@@ -29,7 +28,7 @@ class AccountFragment: Fragment(), AdapterChangeModeListener, DialogListener {
 
     override fun onDialogPositiveClick(dialog: DialogFragment) {
         if (dialog is AccountDialog){
-            content.MoneyAccounts.add(dialog.arguments.getSerializable(AccountDialog.DialogItem) as MoneyAccount)
+            content.accounts.add(dialog.arguments.getSerializable(AccountDialog.DialogItem) as MoneyAccount)
             adapter.notifyDataSetChanged()
         }
     }
@@ -67,7 +66,7 @@ class AccountFragment: Fragment(), AdapterChangeModeListener, DialogListener {
         }
     }
 
-    private lateinit var content: DummyContent
+    private lateinit var content: IMoneyContent
 
     private lateinit var adapter: MoneyAccountViewAdapter
 
@@ -76,7 +75,7 @@ class AccountFragment: Fragment(), AdapterChangeModeListener, DialogListener {
 
         val recyclerView = view.findViewById(R.id.account_list) as RecyclerView
         content = (activity.application as DummyApplication).content
-        adapter = MoneyAccountViewAdapter(content.MoneyAccounts)
+        adapter = MoneyAccountViewAdapter(content.accounts)
         adapter.changeModeListener = this
         recyclerView.adapter = adapter
 
@@ -86,7 +85,7 @@ class AccountFragment: Fragment(), AdapterChangeModeListener, DialogListener {
         if (homeCurrency.isEmpty()){
             totalLayout.visibility = View.GONE
         } else {
-            val totalString = "${String.format("%.2f", content.MoneyAccounts.getTotal())} ${MoneyCurrency.Symbols[homeCurrency]}"
+            val totalString = "${String.format("%.2f", content.accounts.getTotal())} ${MoneyCurrency.Symbols[homeCurrency]}"
             totalView.text = totalString
         }
 
