@@ -10,16 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.ucasoft.money.MoneyApplication
 import com.ucasoft.money.R
 import com.ucasoft.money.adapters.MoneyAccountViewAdapter
 import com.ucasoft.money.contracts.IMoneyContent
-import com.ucasoft.money.dummy.DummyApplication
 import com.ucasoft.money.fragments.dialogs.AccountDialog
 import com.ucasoft.money.helpers.PreferencesHelper
 import com.ucasoft.money.listeners.AdapterChangeModeListener
 import com.ucasoft.money.listeners.DialogListener
 import com.ucasoft.money.model.MoneyAccount
 import com.ucasoft.money.model.MoneyCurrency
+import javax.inject.Inject
 
 /**
  * A fragment representing a list of Items.
@@ -66,22 +67,30 @@ class AccountFragment: Fragment(), AdapterChangeModeListener, DialogListener {
         }
     }
 
-    private lateinit var content: IMoneyContent
+    @Inject
+    lateinit var content: IMoneyContent
+
+    @Inject
+    lateinit var preferences: PreferencesHelper
 
     private lateinit var adapter: MoneyAccountViewAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        MoneyApplication.injector.inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_accounts, container, false)
 
         val recyclerView = view.findViewById(R.id.account_list) as RecyclerView
-        content = (activity.application as DummyApplication).content
         adapter = MoneyAccountViewAdapter(content.accounts)
         adapter.changeModeListener = this
         recyclerView.adapter = adapter
 
         val totalLayout = view.findViewById(R.id.total_balance_layout) as LinearLayout
         val totalView = view.findViewById(R.id.total_balance_view) as TextView
-        val homeCurrency = PreferencesHelper.getInstance(context).getHomeCurrency()
+        val homeCurrency = preferences.getHomeCurrency()
         if (homeCurrency.isEmpty()){
             totalLayout.visibility = View.GONE
         } else {

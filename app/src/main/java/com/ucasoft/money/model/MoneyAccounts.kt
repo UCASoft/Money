@@ -1,11 +1,19 @@
 package com.ucasoft.money.model
 
 import android.content.Context
+import com.ucasoft.money.MoneyApplication
 import com.ucasoft.money.contracts.IMoneyContent
-import com.ucasoft.money.dummy.DummyApplication
 import com.ucasoft.money.helpers.PreferencesHelper
+import javax.inject.Inject
 
 class MoneyAccounts(private val context: Context) : ArrayList<MoneyAccount>() {
+
+    init {
+        MoneyApplication.injector.inject(this)
+    }
+
+    @Inject
+    lateinit var preferences: PreferencesHelper
 
     fun getTotal(): Double{
         val homeCurrency = homeCurrency()
@@ -47,12 +55,11 @@ class MoneyAccounts(private val context: Context) : ArrayList<MoneyAccount>() {
     }
 
     private fun homeCurrency() : String{
-        val preferencesHelper = PreferencesHelper.getInstance(context)
-        return preferencesHelper.getHomeCurrency()
+        return preferences.getHomeCurrency()
     }
 
     private fun dummyContent() : IMoneyContent {
-        return (context as DummyApplication).content
+        return (context as MoneyApplication).content
     }
 
 }
