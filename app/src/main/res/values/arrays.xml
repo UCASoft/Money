@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="account_types">
+        <item>Cash</item>
+        <item>Bank Account</item>
+    </string-array>
+    <string-array name="payment_system_names">
+        <item>Master Card</item>
+        <item>Mir</item>
+        <item>Visa</item>
+    </string-array>
+    <integer-array name="payment_system_logos">
+        <item>@drawable/ic_master_card_color_48dp</item>
+        <item>@drawable/ic_mir_color_48dp</item>
+        <item>@drawable/ic_visa_color_48dp</item>
+    </integer-array>
+</resources>
